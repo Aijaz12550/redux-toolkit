@@ -1,23 +1,34 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { useDispatch, useSelector } from "react-redux";
+import { AppState } from "./redux/configure_store"
+import { test, fetchAsync } from "./redux/slices"
 
 function App() {
+
+  let state = useSelector((state:AppState)=>state);
+  let dispatch = useDispatch();
+
+  const actionHandler = () => {
+    dispatch(test())
+    dispatch(fetchAsync())
+  }
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        {
+          state?.map?.((user,index)=>{
+            return(
+              <div key={user.id} >
+               {++index} {user.name}
+              </div>
+            )
+          })
+        }
+       <button onClick={actionHandler}> test</button>
+       
       </header>
     </div>
   );
